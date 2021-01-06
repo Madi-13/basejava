@@ -5,24 +5,24 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int currentLength = 0;
+    int size = 0;
 
     void clear() {
-        Arrays.fill(storage, null);
-        currentLength = 0;
+        Arrays.fill(storage, size, 0, null);
+        size = 0;
     }
 
     void save(Resume resume) {
-        if (currentLength == storage.length) {
+        if (size == storage.length) {
             System.out.println("Resume storage is full. Сan not save the resume");
         } else {
-            storage[currentLength] = resume;
-            currentLength++;
+            storage[size] = resume;
+            size++;
         }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < currentLength; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
@@ -33,16 +33,16 @@ public class ArrayStorage {
     void delete(String uuid) {
         int uuidIndex = -1;
 
-        for (int i = 0; i < currentLength; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 uuidIndex = i;
             }
         }
 
         if (uuidIndex != -1) {
-            storage[uuidIndex] = storage[currentLength - 1];
-            storage[currentLength - 1] = null;
-            currentLength--;
+            storage[uuidIndex] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
     }
 
@@ -50,15 +50,15 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        if (currentLength == 0) {
+        if (size == 0) {
             return null;
         }
-        Resume[] resumes = new Resume[currentLength];
-        System.arraycopy(storage, 0, resumes, 0, currentLength);
+        Resume[] resumes = new Resume[size];
+        System.arraycopy(storage, 0, resumes, 0, size);
         return resumes;
     }
 
     int size() {
-        return currentLength;
+        return size;
     }
 }
