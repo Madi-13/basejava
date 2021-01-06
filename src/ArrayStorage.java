@@ -12,12 +12,12 @@ public class ArrayStorage {
         currentLength = 0;
     }
 
-    void save(Resume r) {
+    void save(Resume resume) {
         if (currentLength == storage.length) {
             System.out.println("Resume storage is full. Сan not save the resume");
         } else {
-           storage[currentLength] = r;
-           currentLength++;
+            storage[currentLength] = resume;
+            currentLength++;
         }
     }
 
