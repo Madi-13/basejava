@@ -14,7 +14,7 @@ public class ArrayStorage {
 
     void save(Resume resume) {
         if (size == storage.length) {
-            System.out.println("Resume storage is full. Сan not save the resume");
+            System.out.println("Resume storage is full. Сan't save the resume");
         } else {
             storage[size] = resume;
             size++;
