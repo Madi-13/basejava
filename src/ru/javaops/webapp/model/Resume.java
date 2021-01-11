@@ -1,3 +1,5 @@
+package ru.javaops.webapp.model;
+
 /**
  * Initial resume class
  */

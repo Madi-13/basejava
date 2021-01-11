@@ -1,5 +1,9 @@
+package ru.javaops.webapp.storage;
+
+import ru.javaops.webapp.model.Resume;
+
 /**
- * Test for your ArrayStorage implementation
+ * Test for your ru.javaops.webapp.storage.ArrayStorage implementation
  */
 
 public class MainTestArrayStorage {
@@ -25,6 +29,7 @@ public class MainTestArrayStorage {
         printAll();
         ARRAY_STORAGE.delete(r1.uuid);
         printAll();
+        System.out.println("good");
         ARRAY_STORAGE.clear();
         printAll();
 
