@@ -8,12 +8,12 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int size = 0;
+    private Resume[] storage = new Resume[10000];
+    private int size = 0;
 
-    private int indexInStorage(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
@@ -26,12 +26,12 @@ public class ArrayStorage {
     }
 
     public void update(String uuidFrom, String uuidTo) {
-        if (indexInStorage(uuidFrom) == -1) {
+        if (getIndex(uuidFrom) == -1) {
             System.out.println("Given resume(" + uuidTo + ") not in storage");
         } else {
             for (int i = 0; i < size; i++) {
-                if (storage[i].toString().equals(uuidFrom)) {
-                    storage[i].uuid = uuidTo;
+                if (storage[i].getUuid().equals(uuidFrom)) {
+                    storage[i].setUuid(uuidTo);
                 }
             }
         }
@@ -40,8 +40,8 @@ public class ArrayStorage {
     public void save(Resume resume) {
         if (resume == null) {
             System.out.println("Given empty resume to method save");
-        } else if (indexInStorage(resume.toString()) != -1) {
-            System.out.println("Given resume(" + resume.toString() + ") is already in storage");
+        } else if (getIndex(resume.getUuid()) != -1) {
+            System.out.println("Given resume(" + resume.getUuid() + ") is already in storage");
         } else if (size == storage.length) {
             System.out.println("ru.javaops.webapp.model.Resume storage is full. Сan't save the resume");
         } else {
@@ -51,7 +51,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int indexUuid = indexInStorage(uuid);
+        int indexUuid = getIndex(uuid);
         if (indexUuid == -1) {
             System.out.println("Given resume(" + uuid + ") not in storage");
             return null;
@@ -61,11 +61,11 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (indexInStorage(uuid) == -1) {
+        if (getIndex(uuid) == -1) {
             System.out.println("Can not delete a given resume(" + uuid + ") that is not in the storage");
         }
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 storage[i] = storage[size - 1];
                 storage[size - 1] = null;
                 size--;

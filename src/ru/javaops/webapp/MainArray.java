@@ -1,6 +1,7 @@
-package ru.javaops.webapp.storage;
+package ru.javaops.webapp;
 
 import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.uuid = uuid;
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
