@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10000];
     private int size = 0;
 
     private int getIndex(String uuid) {
@@ -25,15 +25,12 @@ public class ArrayStorage {
         size = 0;
     }
 
-    public void update(String uuidFrom, String uuidTo) {
-        if (getIndex(uuidFrom) == -1) {
-            System.out.println("Given resume(" + uuidTo + ") not in storage");
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index == -1) {
+            System.out.println("Given resume(" + resume.getUuid() + ") not in storage");
         } else {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(uuidFrom)) {
-                    storage[i].setUuid(uuidTo);
-                }
-            }
+            storage[index] = resume;
         }
     }
 
@@ -61,15 +58,13 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (getIndex(uuid) == -1) {
+        int uuidIndex = getIndex(uuid);
+        if (uuidIndex == -1) {
             System.out.println("Can not delete a given resume(" + uuid + ") that is not in the storage");
-        }
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-            }
+        } else {
+            storage[uuidIndex] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
     }
 
