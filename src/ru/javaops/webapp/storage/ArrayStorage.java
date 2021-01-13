@@ -7,8 +7,9 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage {
+    private static final int storageLimit = 10000;
+    private final Resume[] storage = new Resume[storageLimit];
     private int size = 0;
 
     private int getIndex(String uuid) {
@@ -17,6 +18,7 @@ public class ArrayStorage {
                 return i;
             }
         }
+
         return -1;
     }
 
@@ -39,7 +41,7 @@ public class ArrayStorage {
             System.out.println("Given empty resume to method save");
         } else if (getIndex(resume.getUuid()) != -1) {
             System.out.println("Given resume(" + resume.getUuid() + ") is already in storage");
-        } else if (size == storage.length) {
+        } else if (size == storageLimit) {
             System.out.println("ru.javaops.webapp.model.Resume storage is full. Сan't save the resume");
         } else {
             storage[size] = resume;
@@ -72,13 +74,9 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[size];
-        System.arraycopy(storage, 0, resumes, 0, size);
-        return resumes;
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
-        return size;
-    }
+    public int size() { return size;}
 
 }
