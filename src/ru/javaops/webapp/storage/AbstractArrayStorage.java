@@ -3,6 +3,7 @@ package ru.javaops.webapp.storage;
 import ru.javaops.webapp.exception.ExistStorageException;
 import ru.javaops.webapp.exception.NotExistStorageException;
 import ru.javaops.webapp.exception.StorageException;
+import ru.javaops.webapp.exception.StorageOverflowException;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void deleteResume(int resumeIndex);
 
-    public Resume get(String uuid) {
+    public Resume get(String uuid) throws NotExistStorageException {
         int indexUuid = getIndex(uuid);
         if (indexUuid < 0) {
             throw new NotExistStorageException(uuid);
@@ -36,7 +37,7 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume resume) {
+    public void update(Resume resume) throws NotExistStorageException {
         int index = getIndex(resume.getUuid());
         if (index < 0 || index >= size) {
             throw new NotExistStorageException(resume.getUuid());
@@ -45,14 +46,14 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void save(Resume resume) {
+    public void save(Resume resume) throws StorageException {
         if (resume == null) {
             System.out.println("Given empty resume to method save");
         } else {
             int resumeIndex = getIndex(resume.getUuid());
 
             if (size == STORAGE_LIMIT) {
-                throw new StorageException("Storage overflow", resume.getUuid());
+                throw new StorageOverflowException(resume.getUuid());
             } else if (resumeIndex >= 0) {
                 throw new ExistStorageException(resume.getUuid());
             } else {
@@ -62,7 +63,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public void delete(String uuid) {
+    public void delete(String uuid) throws NotExistStorageException {
         int uuidIndex = getIndex(uuid);
 
         if (uuidIndex < 0) {
