@@ -11,7 +11,7 @@ import ru.javaops.webapp.storage.ArrayStorage;
 public class MainTestArrayStorage {
     private static final AbstractArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Resume r1 = new Resume("uuid1");
         Resume r2 = new Resume("uuid0");
         Resume r3 = new Resume("uuid3");
