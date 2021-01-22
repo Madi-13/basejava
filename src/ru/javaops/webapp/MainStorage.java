@@ -1,8 +1,8 @@
 package ru.javaops.webapp;
 
 import ru.javaops.webapp.model.Resume;
-import ru.javaops.webapp.storage.AbstractArrayStorage;
-import ru.javaops.webapp.storage.SortedArrayStorage;
+import ru.javaops.webapp.storage.MapStorage;
+import ru.javaops.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,14 +11,14 @@ import java.io.InputStreamReader;
  * Interactive test for ru.javaops.webapp.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
-public class MainArray {
-    private final static AbstractArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
+public class MainStorage {
+    private final static Storage STORAGE = new MapStorage();
 
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | save uuid | delete uuid | get uuid | update uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
             if (params.length < 1 || params.length > 2) {
                 System.out.println("Неверная команда.");
@@ -33,22 +33,27 @@ public class MainArray {
                     printAll();
                     break;
                 case "size":
-                    System.out.println(ARRAY_STORAGE.size());
+                    System.out.println(STORAGE.size());
                     break;
                 case "save":
                     r = new Resume(uuid);
-                    ARRAY_STORAGE.save(r);
+                    STORAGE.save(r);
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
+                    STORAGE.delete(uuid);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    System.out.println(STORAGE.get(uuid));
+                    break;
+                case "update":
+                    r = new Resume(uuid);
+                    STORAGE.update(r);
+                    printAll();
                     break;
                 case "clear":
-                    ARRAY_STORAGE.clear();
+                    STORAGE.clear();
                     printAll();
                     break;
                 case "exit":
@@ -61,7 +66,10 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+        if (STORAGE instanceof MapStorage) {
+            return;
+        }
+        Resume[] all = STORAGE.getAll();
         System.out.println("----------------------------");
         if (all.length == 0) {
             System.out.println("Empty");
