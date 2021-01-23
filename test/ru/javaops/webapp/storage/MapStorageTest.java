@@ -1,9 +1,9 @@
 package ru.javaops.webapp.storage;
 
 import org.junit.Test;
-import ru.javaops.webapp.exception.NotExistStorageException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class MapStorageTest extends AbstractStorageTest {
 
@@ -11,16 +11,10 @@ public class MapStorageTest extends AbstractStorageTest {
         super(new MapStorage());
     }
 
-    @Test(expected = NotExistStorageException.class)
-    public void getKey() {
-        assertEquals(UUID_1, storage.getKey(UUID_1));
-        storage.getKey(UUID_4);
-    }
-
     @Test
     public void inStorage() {
-        assertTrue(storage.inStorage(RESUME_1));
-        assertFalse(storage.inStorage(RESUME_4));
+        assertTrue(storage.inStorage(storage.getKey(UUID_1)));
+        assertFalse(storage.inStorage(storage.getKey(UUID_4)));
     }
 
 }
