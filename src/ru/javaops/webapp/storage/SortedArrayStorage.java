@@ -3,13 +3,23 @@ package ru.javaops.webapp.storage;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+    private static class ResumeComparator implements Comparator<Resume> {
+
+        @Override
+        public int compare(Resume resume1, Resume resume2) {
+            return resume1.getUuid().compareTo(resume2.getUuid());
+        }
+    }
+
+    private static final ResumeComparator RESUME_COMPARATOR = new ResumeComparator();
 
     @Override
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
+        return Arrays.binarySearch(storage, 0, size, searchKey, RESUME_COMPARATOR);
     }
 
     @Override
