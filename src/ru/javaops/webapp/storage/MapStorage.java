@@ -1,12 +1,12 @@
 package ru.javaops.webapp.storage;
 
-import ru.javaops.webapp.exception.NotExistStorageException;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private final LinkedHashMap<String, Resume> storage = new LinkedHashMap<>();
+    private final Map<String, Resume> storage = new LinkedHashMap<>();
 
 
     @Override
@@ -16,12 +16,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String uuid) throws NotExistStorageException {
-        if (!inStorage(new Resume(uuid))) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return uuid;
-        }
+    protected String getKey(String uuid) {
+        return uuid;
     }
 
     @Override
@@ -37,13 +33,13 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean inStorage(Resume resume) {
-        return storage.containsKey(resume.getUuid());
+    protected boolean inStorage(Object key) {
+        return storage.containsKey(key);
     }
 
     @Override
-    protected void saveResume(Resume resume) {
-        storage.put(resume.getUuid(), resume);
+    protected void saveResume(Resume resume, Object key) {
+        storage.put((String) key, resume);
     }
 
     @Override
