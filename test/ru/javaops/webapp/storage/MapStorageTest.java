@@ -5,10 +5,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class MapStorageTest extends AbstractStorageTest {
+public abstract class MapStorageTest<K> extends AbstractStorageTest {
 
-    public MapStorageTest() {
-        super(new MapStorage());
+    protected MapStorageTest(MapStorage<K> storage) {
+        super(storage);
     }
 
     @Test

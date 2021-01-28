@@ -3,6 +3,8 @@ package ru.javaops.webapp.storage;
 import org.junit.Test;
 import ru.javaops.webapp.model.Resume;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ListStorageTest extends AbstractStorageTest {
@@ -13,12 +15,12 @@ public class ListStorageTest extends AbstractStorageTest {
 
     @Test
     public void testGetAll() {
-        Resume[] allResumes = storage.getAll();
-        assertEquals(3, allResumes.length);
+        List<Resume> allResumes = storage.getAllSorted();
+        assertEquals(3, allResumes.size());
 
-        assertEquals(allResumes[0], RESUME_1);
-        assertEquals(allResumes[1], RESUME_2);
-        assertEquals(allResumes[2], RESUME_3);
+        assertEquals(allResumes.get(0), RESUME_1);
+        assertEquals(allResumes.get(1), RESUME_2);
+        assertEquals(allResumes.get(2), RESUME_3);
     }
 
     @Test

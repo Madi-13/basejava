@@ -14,16 +14,16 @@ public abstract class AbstractStorageTest {
     protected AbstractStorage storage;
 
     protected static final String UUID_1 = "uuid1";
-    protected static final Resume RESUME_1 = new Resume(UUID_1);
+    protected static final Resume RESUME_1 = new Resume(UUID_1, "NAME_1");
 
     protected static final String UUID_2 = "uuid2";
-    protected static final Resume RESUME_2 = new Resume(UUID_2);
+    protected static final Resume RESUME_2 = new Resume(UUID_2, "NAME_2");
 
     protected static final String UUID_3 = "uuid3";
-    protected static final Resume RESUME_3 = new Resume(UUID_3);
+    protected static final Resume RESUME_3 = new Resume(UUID_3, "NAME_3");
 
     protected static final String UUID_4 = "uuid4";
-    protected static final Resume RESUME_4 = new Resume(UUID_4);
+    protected static final Resume RESUME_4 = new Resume(UUID_4, "NAME_4");
 
 
     protected AbstractStorageTest(AbstractStorage storage) {
@@ -32,6 +32,7 @@ public abstract class AbstractStorageTest {
 
     @Before
     public void setUp() throws StorageException {
+        storage.clear();
         storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
@@ -40,9 +41,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void testGet() throws NotExistStorageException {
         assertEquals(RESUME_1, storage.get(UUID_1));
-        assertEquals(RESUME_1, storage.get(UUID_1));
-        assertEquals(RESUME_1, storage.get(UUID_1));
-        assertEquals(RESUME_1, storage.get(UUID_1));
+        assertEquals(RESUME_2, storage.get(UUID_2));
+        assertEquals(RESUME_3, storage.get(UUID_3));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -53,12 +53,12 @@ public abstract class AbstractStorageTest {
     @Test
     public void testUpdate() throws NotExistStorageException {
         Resume oldResume = storage.get(UUID_2);
-        Resume newResume = new Resume(UUID_2);
+        Resume newResume = new Resume(UUID_2, "NEW_NAME");
 
         storage.update(newResume);
 
-        assertNotSame(storage.get(UUID_2), oldResume);
-        assertSame(storage.get(UUID_2), newResume);
+        assertNotEquals(storage.get(UUID_2).getFullName(), oldResume.getFullName());
+        assertEquals(storage.get(UUID_2).getFullName(), newResume.getFullName());
 
     }
 

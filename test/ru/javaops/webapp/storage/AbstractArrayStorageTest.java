@@ -5,6 +5,8 @@ import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.exception.StorageOverflowException;
 import ru.javaops.webapp.model.Resume;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
@@ -15,26 +17,26 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     @Test(expected = StorageOverflowException.class)
     public void saveStorageOverflow() throws StorageException {
         try {
-            String uuid = "uuid";
+            String name = "name";
             for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; ++i) {
-                storage.save(new Resume(uuid + (i + 1)));
+                storage.save(new Resume(name + (i + 1)));
             }
         } catch (StorageException exception) {
             exception.printStackTrace();
             fail("Storage overflow exception was threw ahead of time");
         }
 
-        storage.save(new Resume("uuid99999"));
+        storage.save(new Resume("nameOverflow"));
     }
 
     @Test
     public void getAll() {
-        Resume[] allResumes = storage.getAll();
-        assertEquals(3, allResumes.length);
+        List<Resume> allResumes = storage.getAllSorted();
+        assertEquals(3, allResumes.size());
 
-        assertEquals(allResumes[0], RESUME_1);
-        assertEquals(allResumes[1], RESUME_2);
-        assertEquals(allResumes[2], RESUME_3);
+        assertEquals(allResumes.get(0), RESUME_1);
+        assertEquals(allResumes.get(1), RESUME_2);
+        assertEquals(allResumes.get(2), RESUME_3);
     }
 
     @Test

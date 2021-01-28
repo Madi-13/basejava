@@ -2,44 +2,15 @@ package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.model.Resume;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
-    private final Map<String, Resume> storage = new LinkedHashMap<>();
+public abstract class MapStorage<K> extends AbstractStorage {
+    protected final Map<K, Resume> storage;
 
-
-    @Override
-    protected void deleteResume(Object key) {
-        String uuid = (String) key;
-        storage.remove(uuid);
-    }
-
-    @Override
-    protected String getKey(String uuid) {
-        return uuid;
-    }
-
-    @Override
-    protected Resume getResume(Object key) {
-        String uuid = (String) key;
-        return storage.get(uuid);
-    }
-
-    @Override
-    protected void updateResume(Object key, Resume resume) {
-        String uuid = (String) key;
-        storage.put(uuid, resume);
-    }
-
-    @Override
-    protected boolean inStorage(Object key) {
-        return storage.containsKey(key);
-    }
-
-    @Override
-    protected void saveResume(Resume resume, Object key) {
-        storage.put((String) key, resume);
+    protected MapStorage(Map<K, Resume> storage) {
+        this.storage = storage;
     }
 
     @Override
@@ -53,8 +24,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    public List<Resume> getAll() {
+        return new ArrayList<>(storage.values());
     }
-}
 
+}

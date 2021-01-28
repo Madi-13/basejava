@@ -43,7 +43,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume, Object key) {
+    protected void saveResume(Object key, Resume resume) {
         storage.add(resume);
     }
 
@@ -57,8 +57,8 @@ public class ListStorage extends AbstractStorage {
         return storage.size();
     }
 
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+    public List<Resume> getAll() {
+        return storage;
     }
 
 }

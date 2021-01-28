@@ -5,6 +5,9 @@ import ru.javaops.webapp.exception.NotExistStorageException;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
+import java.util.Collections;
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     @Override
@@ -22,7 +25,7 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void save(Resume resume) throws StorageException {
         Object key = getNotExistedKey(resume.getUuid());
-        saveResume(resume, key);
+        saveResume(key, resume);
     }
 
     @Override
@@ -58,9 +61,18 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = getAll();
+        Collections.sort(list);
+        return list;
+    }
+
+    protected abstract List<Resume> getAll();
+
     protected abstract void deleteResume(Object key);
 
-    protected abstract Object getKey(String uuid) throws NotExistStorageException;
+    protected abstract Object getKey(String uuid);
 
     protected abstract Resume getResume(Object key);
 
@@ -68,7 +80,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean inStorage(Object key);
 
-    protected abstract void saveResume(Resume resume, Object key);
+    protected abstract void saveResume(Object key, Resume resume);
 
     protected abstract void clearStorage();
 
