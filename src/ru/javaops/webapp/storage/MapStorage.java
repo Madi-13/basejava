@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class MapStorage<K> extends AbstractStorage {
-    protected final Map<K, Resume> storage;
+public abstract class MapStorage<SearchKey> extends AbstractStorage<SearchKey> {
+    protected final Map<String, Resume> storage;
 
-    protected MapStorage(Map<K, Resume> storage) {
+    protected MapStorage(Map<String, Resume> storage) {
         this.storage = storage;
     }
 

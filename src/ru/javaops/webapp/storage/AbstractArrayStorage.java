@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
 
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -18,12 +18,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void insertResume(Resume resume, int resumeIndex);
 
-    protected abstract void deleteResume(int resumeIndex);
+    protected abstract void removeResume(int resumeIndex);
 
     @Override
-    protected void deleteResume(Object key) {
-        int index = (int) key;
-        deleteResume(index);
+    protected void deleteResume(Integer key) {
+        removeResume(key);
         size--;
     }
 
@@ -33,28 +32,26 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        int index = (int) key;
-        return storage[index];
+    protected Resume getResume(Integer key) {
+        return storage[key];
     }
 
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        int index = (int) key;
-        storage[index] = resume;
+    protected void updateResume(Integer key, Resume resume) {
+        storage[key] = resume;
     }
 
     @Override
-    protected boolean inStorage(Object key) {
-        return (int) key >= 0;
+    protected boolean inStorage(Integer key) {
+        return key >= 0;
     }
 
     @Override
-    protected void saveResume(Object key, Resume resume) {
+    protected void saveResume(Integer key, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageOverflowException(resume.getUuid());
         }
-        insertResume(resume, (int) key);
+        insertResume(resume, key);
         size++;
     }
 

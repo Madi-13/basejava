@@ -2,16 +2,16 @@ package ru.javaops.webapp.storage;
 
 import ru.javaops.webapp.model.Resume;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
-public class MapStorageByResume extends MapStorage<String> {
+public class MapStorageByResume extends MapStorage<Resume> {
     public MapStorageByResume() {
-        super(new LinkedHashMap<>());
+        super(new HashMap<>());
     }
 
     @Override
-    protected void deleteResume(Object key) {
-        storage.remove(((Resume) key).getUuid());
+    protected void deleteResume(Resume key) {
+        storage.remove(key.getUuid());
     }
 
     @Override
@@ -20,23 +20,23 @@ public class MapStorageByResume extends MapStorage<String> {
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return (Resume) key;
+    protected Resume getResume(Resume key) {
+        return key;
     }
 
     @Override
-    protected boolean inStorage(Object key) {
+    protected boolean inStorage(Resume key) {
         return key != null;
     }
 
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        storage.put(resume.getUuid(), (Resume) key);
+    protected void updateResume(Resume key, Resume resume) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void saveResume(Object key, Resume resume) {
-        storage.put(resume.getUuid(), (Resume) key);
+    protected void saveResume(Resume key, Resume resume) {
+        storage.put(resume.getUuid(), resume);
     }
 
 }

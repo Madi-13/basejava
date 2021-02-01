@@ -7,80 +7,90 @@ import ru.javaops.webapp.model.Resume;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SearchKey> implements Storage {
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
     @Override
     public Resume get(String uuid) throws NotExistStorageException {
-        Object key = getExistedKey(uuid);
+        LOG.info("Get" + uuid);
+        SearchKey key = getExistedKey(uuid);
         return getResume(key);
     }
 
     @Override
     public void update(Resume resume) throws NotExistStorageException {
-        Object key = getExistedKey(resume.getUuid());
+        LOG.info("Update " + resume);
+        SearchKey key = getExistedKey(resume.getUuid());
         updateResume(key, resume);
     }
 
     @Override
     public void save(Resume resume) throws StorageException {
-        Object key = getNotExistedKey(resume.getUuid());
+        LOG.info("Save " + resume);
+        SearchKey key = getNotExistedKey(resume.getUuid());
         saveResume(key, resume);
     }
 
     @Override
     public void delete(String uuid) throws NotExistStorageException {
-        Object key = getExistedKey(uuid);
+        LOG.info("Delete " + uuid);
+        SearchKey key = getExistedKey(uuid);
         deleteResume(key);
     }
 
     @Override
     public void clear() {
+        LOG.info("Clear");
         clearStorage();
     }
 
     @Override
     public int size() {
-        return getSize();
+         return getSize();
     }
 
-    private Object getNotExistedKey(String uuid) {
-        Object key = getKey(uuid);
+    @Override
+    public List<Resume> getAllSorted() {
+        LOG.info("Get all sorted");
+        List<Resume> list = getAll();
+        Collections.sort(list);
+        return list;
+    }
+
+    private SearchKey getNotExistedKey(String uuid) {
+        SearchKey key = getKey(uuid);
         if (inStorage(key)) {
+            LOG.warning("Resume " + uuid + " is exist");
             throw new ExistStorageException(uuid);
         }
         return key;
     }
 
 
-    private Object getExistedKey(String uuid) {
-        Object key = getKey(uuid);
+    private SearchKey getExistedKey(String uuid) {
+        SearchKey key = getKey(uuid);
         if (!inStorage(key)) {
+            LOG.warning("Resume " + uuid + " isn't exist");
             throw new NotExistStorageException(uuid);
         }
         return key;
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> list = getAll();
-        Collections.sort(list);
-        return list;
-    }
-
     protected abstract List<Resume> getAll();
 
-    protected abstract void deleteResume(Object key);
+    protected abstract void deleteResume(SearchKey key);
 
-    protected abstract Object getKey(String uuid);
+    protected abstract SearchKey getKey(String uuid);
 
-    protected abstract Resume getResume(Object key);
+    protected abstract Resume getResume(SearchKey key);
 
-    protected abstract void updateResume(Object key, Resume resume);
+    protected abstract void updateResume(SearchKey key, Resume resume);
 
-    protected abstract boolean inStorage(Object key);
+    protected abstract boolean inStorage(SearchKey key);
 
-    protected abstract void saveResume(Object key, Resume resume);
+    protected abstract void saveResume(SearchKey key, Resume resume);
 
     protected abstract void clearStorage();
 

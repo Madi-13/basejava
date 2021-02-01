@@ -25,7 +25,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteResume(int resumeIndex) {
+    protected void removeResume(int resumeIndex) {
         if (size - 1 - resumeIndex >= 0) {
             System.arraycopy(storage, resumeIndex + 1, storage, resumeIndex, size - 1 - resumeIndex);
         }
