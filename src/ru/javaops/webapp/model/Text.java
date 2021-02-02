@@ -28,4 +28,11 @@ public class Text extends SectionInfo {
     public int hashCode() {
         return text.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "Text{" +
+                "text='" + text + '\'' +
+                '}';
+    }
 }

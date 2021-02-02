@@ -4,14 +4,13 @@ import ru.javaops.webapp.util.DateUtil;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class Organization extends SectionInfo {
     private final Link link;
-    private final List<Position> positions = new ArrayList<>();
+    private final List<Position> positions;
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
@@ -28,7 +27,7 @@ public class Organization extends SectionInfo {
     public Organization(Link link, List<Position> positions) {
         Objects.requireNonNull(link, "Link ,ust not be null");
         this.link = link;
-        this.positions.addAll(positions);
+        this.positions = positions;
     }
 
     public Link getLink() {
@@ -79,6 +78,40 @@ public class Organization extends SectionInfo {
             result = 31 * result + (info != null ? info.hashCode() : 0);
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "Position{" +
+                    "startDate=" + startDate +
+                    ", endDate=" + endDate +
+                    ", info='" + info + '\'' +
+                    '}';
+        }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Organization that = (Organization) o;
+
+        if (!link.equals(that.link)) return false;
+        return positions.equals(that.positions);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = link.hashCode();
+        result = 31 * result + positions.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "link=" + link +
+                ", positions=" + positions +
+                '}';
+    }
 }

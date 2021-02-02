@@ -1,12 +1,11 @@
 package ru.javaops.webapp.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListOfTexts extends SectionInfo {
-    private final List<String> texts = new ArrayList<>();
+    private final List<String> texts;
 
     public ListOfTexts(String... texts) {
         this(Arrays.asList(texts));
@@ -14,7 +13,7 @@ public class ListOfTexts extends SectionInfo {
 
     public ListOfTexts(List<String> texts) {
         Objects.requireNonNull(texts, "List of text must not be null");
-        this.texts.addAll(texts);
+        this.texts = texts;
     }
 
     public List<String> getTexts() {
@@ -34,5 +33,12 @@ public class ListOfTexts extends SectionInfo {
     @Override
     public int hashCode() {
         return texts.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ListOfTexts{" +
+                "texts=" + texts +
+                '}';
     }
 }
