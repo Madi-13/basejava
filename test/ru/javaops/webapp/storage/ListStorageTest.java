@@ -25,7 +25,7 @@ public class ListStorageTest extends AbstractStorageTest {
 
     @Test
     public void inStorage() {
-        assertTrue(storage.inStorage(storage.getKey(UUID_1)));
-        assertFalse(storage.inStorage(storage.getKey(UUID_4)));
+        assertTrue(storage.isExist(storage.getKey(UUID_1)));
+        assertFalse(storage.isExist(storage.getKey(UUID_4)));
     }
 }

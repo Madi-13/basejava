@@ -1,76 +1,66 @@
 package ru.javaops.webapp.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Organization extends SectionInfo {
-    private Link link;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private String info;
+    private final Link link;
+    private final List<Position> positions = new ArrayList<>();
 
-    public Organization(Link link, LocalDate startDate, LocalDate endDate, String info) {
-        Objects.requireNonNull(startDate, "Start date must not be null");
-        Objects.requireNonNull(endDate, "End date must not be null");
+    public Organization(Link link, Position... positions) {
+        this(link, Arrays.asList(positions));
+    }
+
+
+    public Organization(Link link, List<Position> positions) {
+        Objects.requireNonNull(link, "Link ,ust not be null");
         this.link = link;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.info = info;
+        this.positions.addAll(positions);
     }
 
     public Link getLink() {
         return link;
     }
 
-    public void setLink(Link link) {
-        this.link = link;
+    public List<Position> getPositions() {
+        return positions;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
+    public static class Position {
+        private final LocalDate startDate;
+        private final LocalDate endDate;
+        private final String info;
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
+        public Position(LocalDate startDate, LocalDate endDate, String info) {
+            Objects.requireNonNull(startDate, "Start date must not be null");
+            Objects.requireNonNull(endDate, "End date must not be null");
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.info = info;
+        }
 
-    public LocalDate getEndDate() {
-        return endDate;
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
+            Position position = (Position) o;
 
-    public String getInfo() {
-        return info;
-    }
+            if (!startDate.equals(position.startDate)) return false;
+            if (!endDate.equals(position.endDate)) return false;
+            return Objects.equals(info, position.info);
+        }
 
-    public void setInfo(String  info) {
-        this.info = info;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Organization that = (Organization) o;
-
-        if (!link.equals(that.link)) return false;
-        if (!startDate.equals(that.startDate)) return false;
-        if (!endDate.equals(that.endDate)) return false;
-        return Objects.equals(info, that.info);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = link.hashCode();
-        result = 31 * result + startDate.hashCode();
-        result = 31 * result + endDate.hashCode();
-        result = 31 * result + (info != null ? info.hashCode() : 0);
-        return result;
+        @Override
+        public int hashCode() {
+            int result = startDate.hashCode();
+            result = 31 * result + endDate.hashCode();
+            result = 31 * result + (info != null ? info.hashCode() : 0);
+            return result;
+        }
     }
 
 }

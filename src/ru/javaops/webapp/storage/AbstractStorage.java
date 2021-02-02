@@ -61,7 +61,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     private SearchKey getNotExistedKey(String uuid) {
         SearchKey key = getKey(uuid);
-        if (inStorage(key)) {
+        if (isExist(key)) {
             LOG.warning("Resume " + uuid + " is exist");
             throw new ExistStorageException(uuid);
         }
@@ -71,7 +71,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     private SearchKey getExistedKey(String uuid) {
         SearchKey key = getKey(uuid);
-        if (!inStorage(key)) {
+        if (!isExist(key)) {
             LOG.warning("Resume " + uuid + " isn't exist");
             throw new NotExistStorageException(uuid);
         }
@@ -88,7 +88,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     protected abstract void updateResume(SearchKey key, Resume resume);
 
-    protected abstract boolean inStorage(SearchKey key);
+    protected abstract boolean isExist(SearchKey key);
 
     protected abstract void saveResume(SearchKey key, Resume resume);
 

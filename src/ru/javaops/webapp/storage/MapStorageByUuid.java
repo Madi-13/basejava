@@ -30,7 +30,7 @@ public class MapStorageByUuid extends MapStorage<String> {
     }
 
     @Override
-    protected boolean inStorage(String key) {
+    protected boolean isExist(String key) {
         return storage.containsKey(key);
     }
 

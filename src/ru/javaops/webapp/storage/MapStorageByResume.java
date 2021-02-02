@@ -25,7 +25,7 @@ public class MapStorageByResume extends MapStorage<Resume> {
     }
 
     @Override
-    protected boolean inStorage(Resume key) {
+    protected boolean isExist(Resume key) {
         return key != null;
     }
 

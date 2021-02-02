@@ -19,14 +19,14 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         try {
             String name = "name";
             for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; ++i) {
-                storage.save(new Resume(name + (i + 1)));
+                storage.save(new ResumeTestData().getFullResume(name + (i + 1), "dummy"));
             }
         } catch (StorageException exception) {
             exception.printStackTrace();
             fail("Storage overflow exception was threw ahead of time");
         }
 
-        storage.save(new Resume("nameOverflow"));
+        storage.save(new ResumeTestData().getFullResume("nameOverflow", "dummy"));
     }
 
     @Test
@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
     @Test
     public void inStorage() {
-        assertTrue(storage.inStorage(storage.getKey(UUID_1)));
-        assertFalse(storage.inStorage(storage.getKey(UUID_4)));
+        assertTrue(storage.isExist(storage.getKey(UUID_1)));
+        assertFalse(storage.isExist(storage.getKey(UUID_4)));
     }
 }
