@@ -1,6 +1,9 @@
 package ru.javaops.webapp.model;
 
+import ru.javaops.webapp.util.DateUtil;
+
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,10 +13,17 @@ public class Organization extends SectionInfo {
     private final Link link;
     private final List<Position> positions = new ArrayList<>();
 
+    public Organization(String name, String url, Position... positions) {
+        this(new Link(name, url), Arrays.asList(positions));
+    }
+
+    public Organization(String name, String url, List<Position> positions) {
+        this(new Link(name, url), positions);
+    }
+
     public Organization(Link link, Position... positions) {
         this(link, Arrays.asList(positions));
     }
-
 
     public Organization(Link link, List<Position> positions) {
         Objects.requireNonNull(link, "Link ,ust not be null");
@@ -33,6 +43,14 @@ public class Organization extends SectionInfo {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String info;
+
+        public Position(int startYear, Month startMonth, String info) {
+            this(DateUtil.of(startYear, startMonth), DateUtil.NOW, info);
+        }
+
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String info) {
+            this(DateUtil.of(startYear, startMonth), DateUtil.of(endYear, endMonth), info);
+        }
 
         public Position(LocalDate startDate, LocalDate endDate, String info) {
             Objects.requireNonNull(startDate, "Start date must not be null");
