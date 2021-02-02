@@ -12,28 +12,29 @@ import static org.junit.Assert.assertEquals;
 public class ResumeTestData {
     private Resume resume;
     private final Organization Enkata = new Organization(new Link("Enkata", "http://enkata.com/"),
-                                                            new Organization.Position(DateUtil.of(2007, Month.of(3)),
-                                                            DateUtil.of(2006, Month.of(6)),
-                                                            " \tРазработчик ПО\n" +
-                                                                    "Реализация клиентской (Eclipse RCP) и " +
-                                                                    "серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) " +
-                                                                    "частей кластерного J2EE приложения (OLAP, Data mining)."));
+            new Organization.Position(DateUtil.of(2007, Month.of(3)),
+                    DateUtil.of(2006, Month.of(6)),
+                    " \tРазработчик ПО",
+                    "Реализация клиентской (Eclipse RCP) и " +
+                            "серверной (JBoss 4.2, Hibernate 3.0, Tomcat, JMS) " +
+                            "частей кластерного J2EE приложения (OLAP, Data mining)."));
     private final Organization Wrike = new Organization(new Link("Wrike", "https://www.wrike.com/"),
-                                                new Organization.Position(DateUtil.of(2014, Month.of(10)),
-                                                                DateUtil.of(2016, Month.of(1)),
-                                                            "Старший разработчик (backend)\n" +
-                                                                    "Проектирование и разработка онлайн платформы управления проектами Wrike " +
-                                                                    "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
-                                                                    "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
+            new Organization.Position(DateUtil.of(2014, Month.of(10)),
+                    DateUtil.of(2016, Month.of(1)),
+                    "Старший разработчик (backend)",
+                    "Проектирование и разработка онлайн платформы управления проектами Wrike " +
+                            "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
+                            "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO."));
     private final Organization Coursera = new Organization(new Link("Coursera", "https://www.coursera.org/course/progfun"),
-                                                            new Organization.Position(DateUtil.of(2013, Month.of(3)),
-                                                            DateUtil.of(2013, Month.of(5)),
-                                                            "\"Functional Programming Principles in Scala\" by Martin Odersky"));
+            new Organization.Position(DateUtil.of(2013, Month.of(3)),
+                    DateUtil.of(2013, Month.of(5)),
+                    "Student",
+                    "\"Functional Programming Principles in Scala\" by Martin Odersky"));
     private final Organization Luxoft = new Organization(new Link("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366"),
-                                                            new Organization.Position(DateUtil.of(2011, Month.of(3)),
-                                                            DateUtil.of(2011, Month.of(4)),
-                                                            "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""));
-
+            new Organization.Position(DateUtil.of(2011, Month.of(3)),
+                    DateUtil.of(2011, Month.of(4)),
+                    "Student",
+                    "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""));
 
 
     public Resume getFullResume(String uuid, String fullName) {
@@ -51,7 +52,7 @@ public class ResumeTestData {
         resume.addSection(Section.OBJECTIVE, new Text("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         resume.addSection(Section.PERSONAL, new Text("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
         resume.addSection(Section.ACHIEVEMENT, new ListOfTexts("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven.",
-                                                                "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk."));
+                "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk."));
         resume.addSection(Section.QUALIFICATIONS, new ListOfTexts("MySQL, SQLite, MS SQL, HSQLDB", "ava Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements). "));
         resume.addSection(Section.EXPERIENCE, new ListOfOrganizations(Enkata, Wrike));
         resume.addSection(Section.EDUCATION, new ListOfOrganizations(Coursera, Luxoft));
