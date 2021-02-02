@@ -3,8 +3,8 @@ package ru.javaops.webapp.model;
 import java.util.Objects;
 
 public class Link {
-    private String title;
-    private String url;
+    private final String title;
+    private final String url;
 
     public Link(String title, String url) {
         Objects.requireNonNull(title, "Title must not be null");
@@ -16,16 +16,8 @@ public class Link {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getUrl() {
         return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     @Override
