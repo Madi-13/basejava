@@ -41,21 +41,24 @@ public class Organization extends SectionInfo {
     public static class Position {
         private final LocalDate startDate;
         private final LocalDate endDate;
+        private final String title;
         private final String info;
 
-        public Position(int startYear, Month startMonth, String info) {
-            this(DateUtil.of(startYear, startMonth), DateUtil.NOW, info);
+        public Position(int startYear, Month startMonth, String title, String info) {
+            this(DateUtil.of(startYear, startMonth), DateUtil.NOW, title, info);
         }
 
-        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String info) {
-            this(DateUtil.of(startYear, startMonth), DateUtil.of(endYear, endMonth), info);
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String info) {
+            this(DateUtil.of(startYear, startMonth), DateUtil.of(endYear, endMonth), title, info);
         }
 
-        public Position(LocalDate startDate, LocalDate endDate, String info) {
+        public Position(LocalDate startDate, LocalDate endDate, String title, String info) {
             Objects.requireNonNull(startDate, "Start date must not be null");
             Objects.requireNonNull(endDate, "End date must not be null");
+            Objects.requireNonNull(title, "name of position must not be null");
             this.startDate = startDate;
             this.endDate = endDate;
+            this.title = title;
             this.info = info;
         }
 
@@ -68,13 +71,15 @@ public class Organization extends SectionInfo {
 
             if (!startDate.equals(position.startDate)) return false;
             if (!endDate.equals(position.endDate)) return false;
-            return Objects.equals(info, position.info);
+            if (!title.equals(position.title)) return false;
+            return info != null ? info.equals(position.info) : position.info == null;
         }
 
         @Override
         public int hashCode() {
             int result = startDate.hashCode();
             result = 31 * result + endDate.hashCode();
+            result = 31 * result + title.hashCode();
             result = 31 * result + (info != null ? info.hashCode() : 0);
             return result;
         }
@@ -84,6 +89,7 @@ public class Organization extends SectionInfo {
             return "Position{" +
                     "startDate=" + startDate +
                     ", endDate=" + endDate +
+                    ", title='" + title + '\'' +
                     ", info='" + info + '\'' +
                     '}';
         }
