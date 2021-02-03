@@ -1,4 +1,6 @@
 package ru.javaops.webapp.model;
 
-public abstract class SectionInfo {
+import java.io.Serializable;
+
+public abstract class SectionInfo implements Serializable {
 }

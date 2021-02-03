@@ -3,6 +3,8 @@ package ru.javaops.webapp.model;
 import java.util.Objects;
 
 public class Text extends SectionInfo {
+    private static final long serialVersionUID = 1L; //serialisation version
+
     private final String text;
 
     public Text(String text) {

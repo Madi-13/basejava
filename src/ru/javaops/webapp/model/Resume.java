@@ -1,11 +1,13 @@
 package ru.javaops.webapp.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUID = 1L; //serialisation version
 
     private final String uuid;
     private String fullName;

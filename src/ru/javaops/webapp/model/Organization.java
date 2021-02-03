@@ -2,6 +2,7 @@ package ru.javaops.webapp.model;
 
 import ru.javaops.webapp.util.DateUtil;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Organization extends SectionInfo {
+    private static final long serialVersionUID = 1L; //serialisation version
+
     private final Link link;
     private final List<Position> positions;
 
@@ -38,7 +41,9 @@ public class Organization extends SectionInfo {
         return positions;
     }
 
-    public static class Position {
+    public static class Position implements Serializable {
+        private static final long serialVersionUID = 1L; //serialisation version
+
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
