@@ -20,8 +20,8 @@ public class PathStorage extends AbstractStorage<Path> {
     private final StreamSerializer streamSerializer;
 
     public PathStorage(String dir, StreamSerializer streamSerializer) {
+        Objects.requireNonNull(dir, "Directory path must not be null");
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, "Directory must not be null");
         Objects.requireNonNull(streamSerializer, "StreamSerializer must not be null");
         if (!Files.isDirectory(directory)) {
             throw new IllegalArgumentException(dir + "is not directory");
