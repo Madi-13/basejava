@@ -8,9 +8,12 @@ import ru.javaops.webapp.exception.NotExistStorageException;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIRECTORY = new File("/home/sayan/topjava/basejava/storage");
     protected AbstractStorage storage;
 
     protected static final String UUID_1 = "uuid1";
@@ -71,7 +74,7 @@ public abstract class AbstractStorageTest {
     public void testSave() throws ExistStorageException {
         storage.save(RESUME_4);
         assertEquals(4, storage.size());
-        assertSame(RESUME_4, storage.get(UUID_4));
+        assertEquals(RESUME_4, storage.get(UUID_4));
     }
 
     @Test(expected = ExistStorageException.class)
