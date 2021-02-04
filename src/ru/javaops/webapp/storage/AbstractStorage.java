@@ -12,6 +12,24 @@ import java.util.logging.Logger;
 public abstract class AbstractStorage<SearchKey> implements Storage {
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
+    protected abstract List<Resume> getAll();
+
+    protected abstract void deleteResume(SearchKey key);
+
+    protected abstract SearchKey getKey(String uuid);
+
+    protected abstract Resume getResume(SearchKey key);
+
+    protected abstract void updateResume(SearchKey key, Resume resume);
+
+    protected abstract boolean isExist(SearchKey key);
+
+    protected abstract void saveResume(SearchKey key, Resume resume);
+
+    protected abstract void clearStorage();
+
+    protected abstract int getSize();
+
     @Override
     public Resume get(String uuid) throws NotExistStorageException {
         LOG.info("Get" + uuid);
@@ -77,23 +95,5 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
         }
         return key;
     }
-
-    protected abstract List<Resume> getAll();
-
-    protected abstract void deleteResume(SearchKey key);
-
-    protected abstract SearchKey getKey(String uuid);
-
-    protected abstract Resume getResume(SearchKey key);
-
-    protected abstract void updateResume(SearchKey key, Resume resume);
-
-    protected abstract boolean isExist(SearchKey key);
-
-    protected abstract void saveResume(SearchKey key, Resume resume);
-
-    protected abstract void clearStorage();
-
-    protected abstract int getSize();
 
 }

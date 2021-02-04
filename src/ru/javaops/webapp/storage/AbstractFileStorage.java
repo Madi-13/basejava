@@ -3,14 +3,17 @@ package ru.javaops.webapp.storage;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
     private final File directory;
+
+    protected abstract void doWrite(OutputStream os, Resume resume) throws IOException;
+
+    protected abstract Resume doRead(InputStream is) throws IOException;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "Directory must not be null");
@@ -51,7 +54,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume getResume(File file) {
         try {
-            return doRead(file);
+            return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Couldn't read file" + file.getAbsolutePath(), file.getName(), e);
         }
@@ -60,7 +63,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateResume(File file, Resume resume) {
         try {
-            doWrite(file, resume);
+            doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
         } catch (IOException e) {
             throw new StorageException("File write error", file.getName(), e);
         }
@@ -99,8 +102,4 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         return files.length;
     }
-
-    protected abstract void doWrite(File file, Resume resume) throws IOException;
-
-    protected abstract Resume doRead(File file) throws IOException;
 }
