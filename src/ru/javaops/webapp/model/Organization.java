@@ -1,7 +1,11 @@
 package ru.javaops.webapp.model;
 
 import ru.javaops.webapp.util.DateUtil;
+import ru.javaops.webapp.util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -12,8 +16,12 @@ import java.util.Objects;
 public class Organization extends SectionInfo {
     private static final long serialVersionUID = 1L; //serialisation version
 
-    private final Link link;
-    private final List<Position> positions;
+    private Link link;
+    private List<Position> positions;
+
+    public Organization() {
+
+    }
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
@@ -41,13 +49,20 @@ public class Organization extends SectionInfo {
         return positions;
     }
 
+
+    @XmlAccessorType(XmlAccessType.FIELD) // to work with fields without setters for XmlParser
     public static class Position implements Serializable {
         private static final long serialVersionUID = 1L; //serialisation version
 
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String info;
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class) // to serialize localDate for XmlParser
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(value = LocalDateAdapter.class) // to serialize localDate for XmlParser
+        private LocalDate endDate;
+        private String title;
+        private String info;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, String title, String info) {
             this(DateUtil.of(startYear, startMonth), DateUtil.NOW, title, info);
@@ -65,6 +80,22 @@ public class Organization extends SectionInfo {
             this.endDate = endDate;
             this.title = title;
             this.info = info;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getInfo() {
+            return info;
         }
 
         @Override

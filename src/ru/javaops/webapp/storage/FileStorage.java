@@ -33,7 +33,7 @@ public class FileStorage extends AbstractStorage<File> {
             throw new StorageException("Couldn't read directory" + directory.getName());
         }
         List<Resume> resumes = new ArrayList<>(files.length);
-        for (File file: files) {
+        for (File file : files) {
             resumes.add(getResume(file));
         }
         return resumes;
@@ -42,7 +42,7 @@ public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void deleteResume(File file) {
         if (!file.delete()) {
-            throw new  StorageException("Couldn't delete file" + file.getAbsolutePath() , file.getName());
+            throw new StorageException("Couldn't delete file" + file.getAbsolutePath(), file.getName());
         }
     }
 
@@ -88,7 +88,7 @@ public class FileStorage extends AbstractStorage<File> {
     protected void clearStorage() {
         File[] files = directory.listFiles();
         if (files != null) {
-            for (File file: files) {
+            for (File file : files) {
                 deleteResume(file);
             }
         }

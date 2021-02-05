@@ -7,7 +7,10 @@ import java.util.Objects;
 public class ListOfOrganizations extends SectionInfo {
     private static final long serialVersionUID = 1L; //serialisation version
 
-    private final List<Organization> organizations;
+    private List<Organization> organizations;
+
+    public ListOfOrganizations() {
+    }
 
     public ListOfOrganizations(Organization... organizations) {
         this(Arrays.asList(organizations));

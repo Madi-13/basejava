@@ -7,7 +7,10 @@ import java.util.Objects;
 public class ListOfTexts extends SectionInfo {
     private static final long serialVersionUID = 1L; //serialisation version
 
-    private final List<String> texts;
+    private List<String> texts;
+
+    public ListOfTexts() {
+    }
 
     public ListOfTexts(String... texts) {
         this(Arrays.asList(texts));

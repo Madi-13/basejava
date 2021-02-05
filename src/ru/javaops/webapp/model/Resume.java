@@ -1,19 +1,27 @@
 package ru.javaops.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.*;
 
 /**
  * Initial resume class
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD) // to work with fields without setters for XmlParser
 public class Resume implements Comparable<Resume>, Serializable {
-    private static final long serialVersionUID = 1L; //serialisation version
+    private static final long serialVersionUID = 1L; // serialisation version
 
-    private final String uuid;
+    private String uuid;
     private String fullName;
 
     private final Map<Contact, String> contacts = new EnumMap(Contact.class);
     private final Map<Section, SectionInfo> sections = new EnumMap(Section.class);
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -25,6 +33,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         this.uuid = uuid;
         this.fullName = fullName;
     }
+
+
 
     public String getUuid() {
         return uuid;
@@ -55,6 +65,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         sections.put(section, sectionInfo);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,16 +74,19 @@ public class Resume implements Comparable<Resume>, Serializable {
         Resume resume = (Resume) o;
 
         if (!uuid.equals(resume.uuid)) return false;
-        return fullName.equals(resume.fullName);
+        if (!fullName.equals(resume.fullName)) return false;
+        if (!contacts.equals(resume.contacts)) return false;
+        return sections.equals(resume.sections);
     }
 
     @Override
     public int hashCode() {
         int result = uuid.hashCode();
         result = 31 * result + fullName.hashCode();
+        result = 31 * result + contacts.hashCode();
+        result = 31 * result + sections.hashCode();
         return result;
     }
-
 
     @Override
     public String toString() {
