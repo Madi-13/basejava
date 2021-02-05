@@ -9,6 +9,7 @@ import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
 import java.io.File;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -98,6 +99,16 @@ public abstract class AbstractStorageTest {
     public void testClear() {
         storage.clear();
         assertEquals(0, storage.size());
+    }
+
+    @Test
+    public void getAllSorted() {
+        List allResumes = storage.getAllSorted();
+        assertEquals(3, allResumes.size());
+
+        assertEquals(allResumes.get(0), RESUME_1);
+        assertEquals(allResumes.get(1), RESUME_2);
+        assertEquals(allResumes.get(2), RESUME_3);
     }
 
     @Test

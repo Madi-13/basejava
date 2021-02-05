@@ -3,9 +3,6 @@ package ru.javaops.webapp.storage;
 import org.junit.Test;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.exception.StorageOverflowException;
-import ru.javaops.webapp.model.Resume;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,16 +24,6 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         }
 
         storage.save(new ResumeTestData().getFullResume("nameOverflow", "dummy"));
-    }
-
-    @Test
-    public void getAll() {
-        List<Resume> allResumes = storage.getAllSorted();
-        assertEquals(3, allResumes.size());
-
-        assertEquals(allResumes.get(0), RESUME_1);
-        assertEquals(allResumes.get(1), RESUME_2);
-        assertEquals(allResumes.get(2), RESUME_3);
     }
 
     @Test
