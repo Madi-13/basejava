@@ -44,6 +44,14 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
+    public Map<Contact, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<Section, SectionInfo> getSections() {
+        return sections;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
