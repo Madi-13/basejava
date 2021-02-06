@@ -37,8 +37,12 @@ public class ResumeTestData {
                     "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\""));
 
 
-    public Resume getFullResume(String uuid, String fullName) {
-        Resume resume = new Resume(uuid, fullName);
+    public void setResumeFull(Resume resume) {
+        setResumeWithContacts(resume);
+        setResumeWithSections(resume);
+    }
+
+    public void setResumeWithContacts(Resume resume) {
         resume.addContact(Contact.PHONE, "11111");
         resume.addContact(Contact.MOBILE, "22222");
         resume.addContact(Contact.HOME_PHONE, "33333");
@@ -48,15 +52,17 @@ public class ResumeTestData {
         resume.addContact(Contact.GITHUB, "github");
         resume.addContact(Contact.STACKOVERFLOW, "stackoverflow");
         resume.addContact(Contact.HOME_PAGE, "home_page.html");
+    }
 
+    public void setResumeWithSections(Resume resume) {
         resume.addSection(Section.OBJECTIVE, new Text("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         resume.addSection(Section.PERSONAL, new Text("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
         resume.addSection(Section.ACHIEVEMENT, new ListOfTexts("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven.",
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk."));
-        resume.addSection(Section.QUALIFICATIONS, new ListOfTexts("MySQL, SQLite, MS SQL, HSQLDB", "ava Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements). "));
+        resume.addSection(Section.QUALIFICATIONS, new ListOfTexts("MySQL, SQLite, MS SQL, HSQLDB",
+                "Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements). "));
         resume.addSection(Section.EXPERIENCE, new ListOfOrganizations(Enkata, Wrike));
         resume.addSection(Section.EDUCATION, new ListOfOrganizations(Coursera, Luxoft));
-        return resume;
     }
 
     @Before
