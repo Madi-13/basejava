@@ -3,6 +3,7 @@ package ru.javaops.webapp.storage;
 import org.junit.Test;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.exception.StorageOverflowException;
+import ru.javaops.webapp.model.Resume;
 
 import static org.junit.Assert.*;
 
@@ -15,15 +16,20 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void saveStorageOverflow() throws StorageException {
         try {
             String name = "name";
+            ResumeTestData resumeFiller = new ResumeTestData();
             for (int i = 3; i < AbstractArrayStorage.STORAGE_LIMIT; ++i) {
-                storage.save(new ResumeTestData().getFullResume(name + (i + 1), "dummy"));
+                Resume resume = new Resume(name + (i + 1), "dummy");
+                resumeFiller.setResumeFull(resume);
+                storage.save(resume);
             }
         } catch (StorageException exception) {
             exception.printStackTrace();
             fail("Storage overflow exception was threw ahead of time");
         }
 
-        storage.save(new ResumeTestData().getFullResume("nameOverflow", "dummy"));
+        Resume overflowResume = new Resume("nameOverflow", "dummy");
+        new ResumeTestData().setResumeFull(overflowResume);
+        storage.save(overflowResume);
     }
 
     @Test

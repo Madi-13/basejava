@@ -18,17 +18,25 @@ public abstract class AbstractStorageTest {
     protected AbstractStorage storage;
 
     protected static final String UUID_1 = "uuid1";
-    protected static final Resume RESUME_1 = new ResumeTestData().getFullResume(UUID_1, "NAME_1");
+    protected static final Resume RESUME_1 = new Resume(UUID_1, "NAME_1");
 
     protected static final String UUID_2 = "uuid2";
-    protected static final Resume RESUME_2 = new ResumeTestData().getFullResume(UUID_2, "NAME_2");
+    protected static final Resume RESUME_2 = new Resume(UUID_2, "NAME_2");
 
     protected static final String UUID_3 = "uuid3";
-    protected static final Resume RESUME_3 = new ResumeTestData().getFullResume(UUID_3, "NAME_3");
+    protected static final Resume RESUME_3 = new Resume(UUID_3, "NAME_3");
 
     protected static final String UUID_4 = "uuid4";
-    protected static final Resume RESUME_4 = new ResumeTestData().getFullResume(UUID_4, "NAME_4");
+    protected static final Resume RESUME_4 = new Resume(UUID_4, "NAME_4");
 
+    protected static final ResumeTestData RESUME_TEST_DATA = new ResumeTestData();
+
+    static {
+        RESUME_TEST_DATA.setResumeFull(RESUME_1);
+        RESUME_TEST_DATA.setResumeWithContacts(RESUME_2);
+        RESUME_TEST_DATA.setResumeWithSections(RESUME_3);
+        RESUME_TEST_DATA.setResumeFull(RESUME_4);
+    }
 
     protected AbstractStorageTest(AbstractStorage storage) {
         this.storage = storage;
@@ -57,7 +65,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void testUpdate() throws NotExistStorageException {
         Resume oldResume = storage.get(UUID_2);
-        Resume newResume = new ResumeTestData().getFullResume(UUID_2, "NEW_NAME");
+        Resume newResume = new Resume(UUID_2, "NEW_NAME");
+        RESUME_TEST_DATA.setResumeWithSections(newResume);
 
         storage.update(newResume);
 
