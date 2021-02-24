@@ -7,6 +7,7 @@ import ru.javaops.webapp.exception.ExistStorageException;
 import ru.javaops.webapp.exception.NotExistStorageException;
 import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
+import ru.javaops.webapp.util.Config;
 
 import java.io.File;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIRECTORY = new File("/home/sayan/topjava/basejava/storage");
+    protected static final File STORAGE_DIRECTORY = Config.get().getStorageDir();
     protected AbstractStorage storage;
 
     protected static final String UUID_1 = "uuid1";
