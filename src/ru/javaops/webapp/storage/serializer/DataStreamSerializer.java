@@ -20,14 +20,14 @@ public class DataStreamSerializer implements StreamSerializer {
 
     }
 
-    private <T> void writeList(DataOutputStream dos, Collection<T> list, SectionWriter<T> sectionWriter) throws IOException {
+    private <T> void writeList(DataOutputStream dos, Collection<T> list, SectionWriter<T> sectionWriter) throws IOException { // pattern strategy
         dos.writeInt(list.size());
         for (T info : list) {
             sectionWriter.write(info);
         }
     }
 
-    private <T> List<T> readList(DataInputStream dis, SectionReader<T> sectionReader) throws IOException {
+    private <T> List<T> readList(DataInputStream dis, SectionReader<T> sectionReader) throws IOException { // pattern strategy
         int size = dis.readInt();
         List<T> sections = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -61,11 +61,13 @@ public class DataStreamSerializer implements StreamSerializer {
                     });
                 });
                 break;
+            default:
+                throw new UnsupportedOperationException();
         }
     }
 
     private SectionInfo readSection(DataInputStream dis, Section section) throws IOException {
-        SectionInfo sectionInfo = null;
+        SectionInfo sectionInfo;
         switch (section) {
             case OBJECTIVE:
             case PERSONAL:
@@ -82,6 +84,8 @@ public class DataStreamSerializer implements StreamSerializer {
                                 new Organization.Position(LocalDate.parse(dis.readUTF()),
                                         LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF())))));
                 break;
+            default:
+                throw new UnsupportedOperationException();
         }
         return sectionInfo;
     }
