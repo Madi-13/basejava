@@ -31,10 +31,4 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         new ResumeTestData().setResumeFull(overflowResume);
         storage.save(overflowResume);
     }
-
-    @Test
-    public void inStorage() {
-        assertTrue(storage.isExist(storage.getKey(UUID_1)));
-        assertFalse(storage.isExist(storage.getKey(UUID_4)));
-    }
 }

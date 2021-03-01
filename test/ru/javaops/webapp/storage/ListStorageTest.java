@@ -23,9 +23,4 @@ public class ListStorageTest extends AbstractStorageTest {
         assertEquals(allResumes.get(2), RESUME_3);
     }
 
-    @Test
-    public void inStorage() {
-        assertTrue(storage.isExist(storage.getKey(UUID_1)));
-        assertFalse(storage.isExist(storage.getKey(UUID_4)));
-    }
 }

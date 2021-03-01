@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIRECTORY = Config.get().getStorageDir();
-    protected AbstractStorage storage;
+    protected Storage storage;
 
     protected static final String UUID_1 = "uuid1";
     protected static final Resume RESUME_1 = new Resume(UUID_1, "NAME_1");
@@ -39,7 +39,7 @@ public abstract class AbstractStorageTest {
         RESUME_TEST_DATA.setResumeFull(RESUME_4);
     }
 
-    protected AbstractStorageTest(AbstractStorage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
