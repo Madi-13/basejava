@@ -79,7 +79,7 @@ public class Organization extends SectionInfo {
             this.startDate = startDate;
             this.endDate = endDate;
             this.title = title;
-            this.info = info;
+            this.info = info != null ? info : "";
         }
 
         public LocalDate getStartDate() {
@@ -108,7 +108,7 @@ public class Organization extends SectionInfo {
             if (!startDate.equals(position.startDate)) return false;
             if (!endDate.equals(position.endDate)) return false;
             if (!title.equals(position.title)) return false;
-            return info != null ? info.equals(position.info) : position.info == null;
+            return Objects.equals(info, position.info);
         }
 
         @Override
