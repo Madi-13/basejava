@@ -18,16 +18,16 @@ public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIRECTORY = Config.get().getStorageDir();
     protected Storage storage;
 
-    protected static final String UUID_1 = "uuid1";
+    protected static final String UUID_1 = "uuid1                               ";
     protected static final Resume RESUME_1 = new Resume(UUID_1, "NAME_1");
 
-    protected static final String UUID_2 = "uuid2";
+    protected static final String UUID_2 = "uuid2                               ";
     protected static final Resume RESUME_2 = new Resume(UUID_2, "NAME_2");
 
-    protected static final String UUID_3 = "uuid3";
+    protected static final String UUID_3 = "uuid3                               ";
     protected static final Resume RESUME_3 = new Resume(UUID_3, "NAME_3");
 
-    protected static final String UUID_4 = "uuid4";
+    protected static final String UUID_4 = "uuid4                               ";
     protected static final Resume RESUME_4 = new Resume(UUID_4, "NAME_4");
 
     protected static final ResumeTestData RESUME_TEST_DATA = new ResumeTestData();
@@ -71,8 +71,8 @@ public abstract class AbstractStorageTest {
 
         storage.update(newResume);
 
-        assertNotEquals(storage.get(UUID_2).getFullName(), oldResume.getFullName());
-        assertEquals(storage.get(UUID_2).getFullName(), newResume.getFullName());
+        assertNotEquals(storage.get(UUID_2), oldResume);
+        assertEquals(storage.get(UUID_2), newResume);
 
     }
 
@@ -116,9 +116,9 @@ public abstract class AbstractStorageTest {
         List allResumes = storage.getAllSorted();
         assertEquals(3, allResumes.size());
 
-        assertEquals(allResumes.get(0), RESUME_1);
-        assertEquals(allResumes.get(1), RESUME_2);
-        assertEquals(allResumes.get(2), RESUME_3);
+        assertEquals(RESUME_2, allResumes.get(1));
+        assertEquals(RESUME_1, allResumes.get(0));
+        assertEquals(RESUME_3, allResumes.get(2));
     }
 
     @Test
