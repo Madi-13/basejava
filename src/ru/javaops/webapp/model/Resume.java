@@ -96,11 +96,22 @@ public class Resume implements Comparable<Resume>, Serializable {
         return result;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Resume{" +
+//                "uuid='" + uuid + '\'' +
+//                ", fullName='" + fullName + '}';
+//    }
+
+
     @Override
     public String toString() {
         return "Resume{" +
                 "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '}';
+                ", fullName='" + fullName + '\'' +
+                ", contacts=" + contacts +
+                ", sections=" + sections +
+                '}';
     }
 
     @Override
