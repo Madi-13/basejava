@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,10 @@ public class Organization extends SectionInfo {
 
     public Organization() {
 
+    }
+
+    public Organization(String name, String url) {
+        this(name, url, new ArrayList<>());
     }
 
     public Organization(String name, String url, Position... positions) {
@@ -36,7 +41,7 @@ public class Organization extends SectionInfo {
     }
 
     public Organization(Link link, List<Position> positions) {
-        Objects.requireNonNull(link, "Link ,ust not be null");
+        Objects.requireNonNull(link, "Link must not be null");
         this.link = link;
         this.positions = positions;
     }
@@ -49,6 +54,13 @@ public class Organization extends SectionInfo {
         return positions;
     }
 
+    public void addPosition(Position pos) {
+        positions.add(pos);
+    }
+
+    public void delPosition(Position pos) {
+        positions.remove(pos);
+    }
 
     @XmlAccessorType(XmlAccessType.FIELD) // to work with fields without setters for XmlParser
     public static class Position implements Serializable {
