@@ -1,23 +1,122 @@
 package ru.javaops.webapp.web;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import ru.javaops.webapp.model.*;
+import ru.javaops.webapp.storage.Storage;
+import ru.javaops.webapp.util.Config;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResumeServlet extends HttpServlet {
+    private Storage storage;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        storage = Config.get().getStorage();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-type", "text/html; charset=UTF-0");
-        String name = request.getParameter("name");
-        PrintWriter writer = response.getWriter();
-        writer.write("Hello " + (name == null ? "World" : name ) + '\n');
+        String uuid = request.getParameter("uuid");
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
+        }
+        Resume resume;
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
+            case "view":
+            case "edit":
+                resume = storage.get(uuid);
+                break;
+            case "add":
+                resume = new Resume("");
+                storage.save(resume);
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " doesn't support");
+        }
+
+        request.setAttribute("resume", resume);
+        request.getRequestDispatcher(
+                action.equals("view")? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp").
+                forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+        Resume resume = new Resume(uuid, fullName);
+        for (Contact type : Contact.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                resume.addContact(type, value);
+            }
+        }
+        for (Section type : Section.values()) {
+            String[] values = request.getParameterValues(type.name());
+            if (values != null) {
+                readSection(request, resume, values, type);
+            }
+        }
+        storage.update(resume);
+        response.sendRedirect("resume");
+    }
 
+    private void readSection(HttpServletRequest request, Resume resume, String[] values, Section type) {
+        switch (type) {
+            case OBJECTIVE:
+            case PERSONAL:
+                resume.addSection(type, new Text(values[0]));
+                break;
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                resume.addSection(type, new ListOfTexts(values));
+                break;
+            case EXPERIENCE:
+            case EDUCATION:
+                Map<String, Organization> map = new HashMap<>();
+                String[] urls = request.getParameterValues(type.name() + "orgLink");
+                String[] pos = request.getParameterValues(type.name() + "posTitle");
+                String[] posInfos = request.getParameterValues(type.name() + "posInfo");
+                String[] startMonths = request.getParameterValues(type.name() + "posStartDateMonth");
+                String[] startYears = request.getParameterValues(type.name() + "posStartDateYear");
+                String[] endMonths = request.getParameterValues(type.name() + "posEndDateMonth");
+                String[] endYears = request.getParameterValues(type.name() + "posEndDateYear");
+                for (int i = 0; i < values.length; i++) {
+                    Organization org = map.get(values[i]);
+                    boolean put = false;
+                    if (org == null) {
+                        org = new Organization(values[i], urls[i]);
+                        put = true;
+                    }
+                    Organization.Position position =
+                            new Organization.Position(
+                                    Integer.parseInt(startYears[i]), Month.of(Integer.parseInt(startMonths[i])),
+                                    Integer.parseInt(endYears[i]), Month.of(Integer.parseInt(endMonths[i])),
+                                    pos[i], posInfos[i]);
+                    org.addPosition(position);
+                    if (put) {
+                        map.put(values[i], org);
+                    }
+                }
+                resume.addSection(type, new ListOfOrganizations(new ArrayList<>(map.values())));
+        }
     }
 }
