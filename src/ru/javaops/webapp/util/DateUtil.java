@@ -11,4 +11,8 @@ public class DateUtil {
     public static LocalDate of(int year, Month month) {
         return LocalDate.of(year, month, 1);
     }
+
+    public static String toString(LocalDate date) {
+        return date.equals(NOW)? "Сейчас" : date.getMonth().getValue() + "/" + date.getYear();
+    }
 }
