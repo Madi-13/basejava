@@ -66,7 +66,7 @@ public abstract class AbstractStorage<SearchKey> implements Storage {
 
     @Override
     public int size() {
-         return getSize();
+        return getSize();
     }
 
     @Override
