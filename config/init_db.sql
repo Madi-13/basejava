@@ -6,8 +6,6 @@ create table resume
     full_name text
 );
 
-alter table resume owner to sayan;
-
 create table section
 (
     id          serial   not null
@@ -25,9 +23,6 @@ create table section
 create unique index section_uuid_index
     on section(resume_uuid, type);
 
-alter table section
-    owner to sayan;
-
 create table contact
 (
     id serial not null
@@ -43,6 +38,4 @@ create table contact
 
 create unique index contact_uuid_index
 	on contact (resume_uuid, type);
-
-alter table contact owner to sayan;
 
