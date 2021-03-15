@@ -156,8 +156,8 @@
                                     </p>
                                     <p>
                                         <dt>Дата увольнения</dt>
-                                        <dh>Месяц: <input type="number" name="${section.name()}posEndDateMonth" value="${pos.endDate.monthValue}" min="1" max="12">
-                                            Год: <input type="number" name="${section.name()}posEndDateYear" value="${pos.endDate.year}" min="1970" max="2021">
+                                        <dh>Месяц: <input type="number" name="${section.name()}posEndDateMonth" value="${pos.endDate == DateUtil.NOW? '' : pos.endDate.monthValue}" min="1" max="12">
+                                            Год: <input type="number" name="${section.name()}posEndDateYear" value="${pos.endDate == DateUtil.NOW? '' : pos.endDate.year}" min="1970" max="2021">
                                         </dh>
                                     </p>
                                     <p>
