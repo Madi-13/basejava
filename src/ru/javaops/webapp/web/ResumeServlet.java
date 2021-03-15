@@ -3,6 +3,7 @@ package ru.javaops.webapp.web;
 import ru.javaops.webapp.model.*;
 import ru.javaops.webapp.storage.Storage;
 import ru.javaops.webapp.util.Config;
+import ru.javaops.webapp.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,8 +72,9 @@ public class ResumeServlet extends HttpServlet {
             }
         }
         for (Section type : Section.values()) {
+            String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (values != null) {
+            if (value != null && value.trim().length() != 0) {
                 readSection(request, resume, values, type);
             }
         }
@@ -100,23 +103,36 @@ public class ResumeServlet extends HttpServlet {
                 String[] endMonths = request.getParameterValues(type.name() + "posEndDateMonth");
                 String[] endYears = request.getParameterValues(type.name() + "posEndDateYear");
                 for (int i = 0; i < values.length; i++) {
+                    if (values[i].trim().length() == 0) {
+                        continue;
+                    }
                     Organization org = map.get(values[i]);
                     boolean put = false;
                     if (org == null) {
                         org = new Organization(values[i], urls[i]);
                         put = true;
                     }
+                    LocalDate startDate = DateUtil.of(Integer.parseInt(startYears[i]), Month.of(Integer.parseInt(startMonths[i])));
+                    LocalDate endDate;
+                    if (endYears[i].trim().length() != 0 && endMonths[i].trim().length() != 0) {
+                        endDate = DateUtil.of(Integer.parseInt(endYears[i]), Month.of(Integer.parseInt(endMonths[i])));
+                    } else {
+                        endDate = DateUtil.NOW;
+                    }
                     Organization.Position position =
                             new Organization.Position(
-                                    Integer.parseInt(startYears[i]), Month.of(Integer.parseInt(startMonths[i])),
-                                    Integer.parseInt(endYears[i]), Month.of(Integer.parseInt(endMonths[i])),
-                                    pos[i], posInfos[i]);
+                                    startDate, endDate,
+                                    pos[i].trim().length() == 0? "Unknown" : pos[i],
+                                    posInfos[i].trim().length() == 0? "None" : posInfos[i]);
                     org.addPosition(position);
                     if (put) {
                         map.put(values[i], org);
                     }
                 }
                 resume.addSection(type, new ListOfOrganizations(new ArrayList<>(map.values())));
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal section" + type.name());
         }
     }
 }

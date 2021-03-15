@@ -158,14 +158,12 @@
                                         <dt>Дата увольнения</dt>
                                         <dh>Месяц: <input type="number" name="${section.name()}posEndDateMonth" value="${pos.endDate.monthValue}" min="1" max="12">
                                             Год: <input type="number" name="${section.name()}posEndDateYear" value="${pos.endDate.year}" min="1970" max="2021">
-<%--                                            Работаю в данный момент: <input type="checkbox" name="${section.name()}posEndDateNow" value="<%=++counter%>">--%>
                                         </dh>
                                     </p>
                                     <p>
                                         <dt>Информация</dt>
                                         <dl><textarea rows="2" cols="200" name="${section.name()}posInfo">${pos.info}</textarea></dl>
                                     </p>
-<%--                                    </div>--%>
                                 </c:forEach>
                                 </div>
                             </c:forEach>
@@ -177,7 +175,7 @@
             </dl>
         </c:forEach>
         <hr>
-        <button type="submit">Сохранить</button>
+        <button type="submit" onclick="location.href='/WEB-INF/jsp/view.jsp'">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
     </form>
 </section>

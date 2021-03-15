@@ -16,10 +16,30 @@ public enum Contact {
             return "<a href='mailto:" + value + "'>" + value + "</a>";
         }
     },
-    LINKEDIN("Профиль LinkedIn"),
-    GITHUB("Профиль GitHub"),
-    STACKOVERFLOW("Профиль Stackoverflow"),
-    HOME_PAGE("Домашняя страница");
+    LINKEDIN("Профиль LinkedIn") {
+        @Override
+        protected String toHtml0(String value) {
+            return "<a href='https://www.linkedin.com/in/" + value + "'>" + value + "</a>";
+        }
+    },
+    GITHUB("Профиль GitHub") {
+        @Override
+        protected String toHtml0(String value) {
+            return "<a href='https://github.com/" + value + "'>" + value + "</a>";
+        }
+    },
+    STACKOVERFLOW("Профиль Stackoverflow") {
+        @Override
+        protected String toHtml0(String value) {
+            return "<a href='https://stackoverflow.com/" + value + "'>" + value + "</a>";
+        }
+    },
+    HOME_PAGE("Домашняя страница") {
+        @Override
+        protected String toHtml0(String value) {
+            return "<a href='" + value + "'>" + value + "</a>";
+        }
+    };
 
     private final String title;
 
@@ -32,7 +52,7 @@ public enum Contact {
     }
 
     protected String toHtml0(String value) {
-        return value == null? "-" : value;
+        return value == null ? "-" : value;
     }
 
     public String toHtml(String value) {
