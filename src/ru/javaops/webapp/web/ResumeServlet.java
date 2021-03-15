@@ -103,7 +103,10 @@ public class ResumeServlet extends HttpServlet {
                 String[] endMonths = request.getParameterValues(type.name() + "posEndDateMonth");
                 String[] endYears = request.getParameterValues(type.name() + "posEndDateYear");
                 for (int i = 0; i < values.length; i++) {
-                    if (values[i].trim().length() == 0) {
+                    if (values[i].trim().length() == 0 ||
+                        pos[i].trim().length() == 0 ||
+                        startMonths[i].trim().length() == 0 ||
+                        startYears[i].trim().length() == 0) {
                         continue;
                     }
                     Organization org = map.get(values[i]);
