@@ -4,13 +4,12 @@ import ru.javaops.webapp.storage.SqlStorage;
 import ru.javaops.webapp.storage.Storage;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File(getHomeDirectory() + "/config/resumes.properties");
+    private static final String PROPS = "/resumes.properties";
     private final Properties PROP = new Properties();
     private final File STORAGE_DIR;
     private static final Config INSTANCE = new Config();
@@ -24,7 +23,7 @@ public class Config {
     }
 
     private Config() {
-        try (InputStream is = new FileInputStream(PROPS)) {
+        try (InputStream is = Config.class.getResourceAsStream(PROPS)) {
             PROP.load(is);
             STORAGE_DIR = new File(PROP.getProperty("storage.dir"));
             DB_URL = PROP.getProperty("db.url");
@@ -32,7 +31,7 @@ public class Config {
             DB_PASSWORD = PROP.getProperty("db.password");
             storage = new SqlStorage(DB_URL, DB_USER, DB_PASSWORD);
         } catch (IOException e) {
-            throw new IllegalStateException("Invalid config file" + PROPS.getAbsolutePath());
+            throw new IllegalStateException("Invalid config file" + PROPS);
         }
     }
 
