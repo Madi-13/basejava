@@ -67,6 +67,7 @@
             </tbody>
         </table>
     </section>
+    <button onclick="window.history.back()">ОК</button>
     <jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
