@@ -3,25 +3,26 @@ package ru.javaops.webapp.model;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ListOfTexts extends SectionInfo {
     private static final long serialVersionUID = 1L; //serialisation version
 
-    private List<String> texts;
+    private List<Text> texts;
 
     public ListOfTexts() {
     }
 
     public ListOfTexts(String... texts) {
-        this(Arrays.asList(texts));
+        this(Arrays.stream(texts).map(Text::new).collect(Collectors.toList()));
     }
 
-    public ListOfTexts(List<String> texts) {
+    public ListOfTexts(List<Text> texts) {
         Objects.requireNonNull(texts, "List of text must not be null");
         this.texts = texts;
     }
 
-    public List<String> getTexts() {
+    public List<Text> getTexts() {
         return texts;
     }
 

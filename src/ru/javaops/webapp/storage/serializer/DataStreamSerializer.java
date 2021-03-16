@@ -5,6 +5,7 @@ import ru.javaops.webapp.model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DataStreamSerializer implements StreamSerializer {
 
@@ -45,7 +46,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATIONS:
-                writeList(dos, ((ListOfTexts) value).getTexts(), dos::writeUTF);
+                writeList(dos, ((ListOfTexts) value).getTexts().stream().map(Text::getText).collect(Collectors.toList()), dos::writeUTF);
                 break;
             case EXPERIENCE:
             case EDUCATION:
@@ -75,7 +76,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 break;
             case ACHIEVEMENT:
             case QUALIFICATIONS:
-                sectionInfo = new ListOfTexts(readList(dis, dis::readUTF));
+                sectionInfo = new ListOfTexts(readList(dis, dis::readUTF).stream().map(Text::new).collect(Collectors.toList()));
                 break;
             case EXPERIENCE:
             case EDUCATION:
