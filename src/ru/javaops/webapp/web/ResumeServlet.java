@@ -46,8 +46,7 @@ public class ResumeServlet extends HttpServlet {
                 resume = storage.get(uuid);
                 break;
             case "add":
-                resume = new Resume("");
-                storage.save(resume);
+                resume = new Resume("","");
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " doesn't support");
@@ -64,7 +63,14 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = new Resume(uuid, fullName);
+        Resume resume;
+        boolean actionAdd = false;
+        if (uuid == null || uuid.trim().length() == 0) {
+            resume = new Resume(fullName);
+            actionAdd = true;
+        } else {
+            resume = new Resume(uuid, fullName);
+        }
         for (Contact type : Contact.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -78,7 +84,13 @@ public class ResumeServlet extends HttpServlet {
                 readSection(request, resume, values, type);
             }
         }
-        storage.update(resume);
+        if (actionAdd) {
+            if (fullName.trim().length() != 0) {
+                storage.save(resume);
+            }
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
     }
 
