@@ -1,7 +1,5 @@
 package ru.javaops.webapp.storage;
 
-import ru.javaops.webapp.exception.NotExistStorageException;
-import ru.javaops.webapp.exception.StorageException;
 import ru.javaops.webapp.model.Resume;
 
 import java.util.List;
@@ -12,13 +10,13 @@ import java.util.List;
 public interface Storage {
     void clear();
 
-    void update(Resume resume) throws NotExistStorageException;
+    void update(Resume resume);
 
-    void save(Resume resume) throws StorageException;
+    void save(Resume resume);
 
-    Resume get(String uuid) throws NotExistStorageException;
+    Resume get(String uuid);
 
-    void delete(String uuid) throws NotExistStorageException;
+    void delete(String uuid);
 
     List<Resume> getAllSorted();
 
