@@ -41,7 +41,7 @@
                                 <td colspan="20">
                                     <ul>
                                         <c:forEach items="<%=((ListOfTexts)sectionEntry.getValue()).getTexts()%>" var="text">
-                                            <li>${text}</li>
+                                            <li>${text.text}</li>
                                         </c:forEach>
                                     </ul>
                                 </td>

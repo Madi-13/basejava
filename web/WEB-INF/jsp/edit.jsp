@@ -74,7 +74,6 @@
                     "<dt>Дата увольнения</dt>\n" +
                     "<dh>Месяц: <input type=\"number\" name=\"" + name + "posEndDateMonth\"  min=\"1\" max=\"12\">\n" +
                     "Год: <input type=\"number\" name=\"" + name + "posEndDateYear\"  min=\"1970\" max=\"2021\">\n" +
-                    // "Работаю в данный момент: <input type='hidden' name='" + name + "posEndDateNow' value='0'><input type=\"checkbox\" name=\"" + name + "posEndDateNow\" value='1'>\n" +
                     "</dh>\n" +
                     "</p>\n" +
                     "<p>\n" +
@@ -121,7 +120,7 @@
                         <dd id="${section == Section.ACHIEVEMENT? "ListOfAch" : "ListOfQua"}">
                         <c:forEach var="text" items="<%=resume.getSection(section) == null? null : ((ListOfTexts)resume.getSection(section)).getTexts()%>">
                             <div>
-                                <textarea name="${section.name()}" rows="2" cols="200" class="text">${text}</textarea>
+                                <textarea name="${section.name()}" rows="2" cols="200" class="text">${text.text}</textarea>
                                 <a href="##" id="${section == Section.ACHIEVEMENT? "delAch" : "delQua"}"><img src="img/delete.png"></a>
                             </div>
                         </c:forEach>
